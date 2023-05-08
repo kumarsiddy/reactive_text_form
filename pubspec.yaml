@@ -1,8 +1,6 @@
 name: reactive_text_form
 description: Displays error messages in a reactive manner, which is not currently possible with the existing Text form. This package enables users to receive error messages more efficiently.
 version: 0.0.1
-authors:
-  - Purushotam Kumar <purushotam.kr@hotmail.com>
 homepage: https://github.com/kumarsiddy/reactive_text_form.git
 
 environment:

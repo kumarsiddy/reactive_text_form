@@ -7,26 +7,30 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            ReactiveTextForm(
-              onChanged: (value) {
-                print('onChange: $value');
-              },
-              error: 'Invalid Password',
-              validators: [
-                _validateYourPassword,
-                _validateYourPassword2,
-              ],
-            ),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              ReactiveTextForm(
+                decoration: _getInputDecoration(),
+                onChanged: (value) {
+                  print('onChange: $value');
+                },
+                error: 'Invalid email address',
+                validators: [
+                  _validateEmail,
+                  _validateEmail2,
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  String? _validateYourPassword(String password) {
+  String? _validateEmail(String password) {
     if (password.length < 6) {
       return password;
     }
@@ -34,11 +38,47 @@ class HomePage extends StatelessWidget {
     return null;
   }
 
-  String? _validateYourPassword2(String password) {
+  String? _validateEmail2(String password) {
     if (!password.contains('@')) {
       return password;
     }
 
     return null;
+  }
+
+  InputDecoration _getInputDecoration() {
+    return const InputDecoration(
+      hintText: 'Please enter your email Address',
+      hintStyle: TextStyle(
+        color: Colors.grey,
+      ),
+      errorStyle: TextStyle(
+        color: Colors.red,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.blue,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.lightBlue,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.red,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.red,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+    );
   }
 }
