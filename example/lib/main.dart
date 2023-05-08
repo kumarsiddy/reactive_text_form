@@ -1,5 +1,5 @@
-import 'package:example/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:reactive_text_form/reactive_text_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,18 +14,91 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              ReactiveTextForm(
+                decoration: _getInputDecoration(),
+                onChanged: (value) {
+                  print('onChange: $value');
+                },
+                error: 'Invalid email address',
+                validators: [
+                  _validateEmail,
+                  _validateEmail2,
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String? _validateEmail(String password) {
+    if (password.length < 6) {
+      return password;
+    }
+
+    return null;
+  }
+
+  String? _validateEmail2(String password) {
+    if (!password.contains('@')) {
+      return password;
+    }
+
+    return null;
+  }
+
+  InputDecoration _getInputDecoration() {
+    return const InputDecoration(
+      hintText: 'Please enter your email Address',
+      hintStyle: TextStyle(
+        color: Colors.grey,
+      ),
+      errorStyle: TextStyle(
+        color: Colors.red,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.blue,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.lightBlue,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.red,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.red,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
     );
   }
 }
